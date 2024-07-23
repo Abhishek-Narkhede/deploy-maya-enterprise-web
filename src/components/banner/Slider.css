@@ -1,0 +1,42 @@
+/* Custom line pagination */
+.custom-line {
+    width: 30px; /* Adjust width as needed */
+    height: 4px; /* Adjust height as needed */
+    background-color: #c1e2ef; /* Adjust color as needed */
+    display: inline-block;
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+    margin: 0 5px; 
+  }
+  
+  /* Active line pagination style */
+  .slick-dots li.slick-active .custom-line {
+    background-color: #14967F; /* Change color for active line */
+  }
+
+  /* Custom styles for the slider */
+.slick-dots {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.slick-dots li {
+  margin: 0 15px; /* Adjust the margin to control the gap */
+}
+
+.slick-dots li button:before {
+  font-size: 10px;
+  color: #000; /* You can customize the color */
+}
+
+.slick-dots li.slick-active button:before {
+  color: #000; /* Active dot color */
+}
+
+.custom-line {
+  width: 40px; /* Adjust the width to your liking */
+  height: 4px;
+  margin: 0 15px; /* Adjust the gap between track lines */
+}
