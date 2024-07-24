@@ -7,7 +7,7 @@ import SimpleLoader from '../Loader/SimpleLoader';
 
 
 
-const KidneyMedicines = ({ products, stepperProgressCartData, setStepperProgressCartData }) => {
+const KidneyMedicines = ({ products, globalConfig, stepperProgressCartData, setStepperProgressCartData }) => {
   const navigate = useNavigate()
 
   return (
@@ -17,7 +17,7 @@ const KidneyMedicines = ({ products, stepperProgressCartData, setStepperProgress
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-1'>
           {
             products?.map((item) => (
-              <KidneyMedicinesCard item={item} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
+              <KidneyMedicinesCard item={item} globalConfig={globalConfig} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
             )
             )
           }

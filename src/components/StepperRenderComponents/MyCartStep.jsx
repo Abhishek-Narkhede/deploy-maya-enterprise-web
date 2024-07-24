@@ -13,6 +13,7 @@ const MyCartStep = ({ stepperProgressCartData, setStepperProgressCartData, globa
                         <ProductCardofCart
                             key={item._id}
                             item={item}
+                            globalConfig={globalConfig}
                             stepperProgressCartData={setStepperProgressCartData}
                             setStepperProgressCartData={setStepperProgressCartData}
                         />

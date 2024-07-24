@@ -26,7 +26,7 @@ const menuItems = [
     'Word of Advice'
 ];
 
-const ProductDetailsCard = ({ productInformations, productData, stepperProgressCartData, setStepperProgressCartData }) => {
+const ProductDetailsCard = ({ productInformations, productData, globalConfig, stepperProgressCartData, setStepperProgressCartData }) => {
 
     // Initialize with the default active section ID
     const [activeSection, setActiveSection] = useState(null);
@@ -301,8 +301,8 @@ const ProductDetailsCard = ({ productInformations, productData, stepperProgressC
                                 <hr />
                                 <div className='w-full flex justify-between mt-4'>
                                     <div className="flex items-center">
-                                        <div className="text-2xl font-bold text-gray-800 mr-2">₹{productData?.price}</div>
-                                        <div className="text-lg line-through text-gray-500">₹{productData?.discountedPrice}</div>
+                                        <div className="text-2xl font-bold text-gray-800 mr-2">{globalConfig?.currencyData?.symbol}{productData?.price}</div>
+                                        <div className="text-lg line-through text-gray-500">{globalConfig?.currencyData?.symbol}{productData?.discountedPrice}</div>
                                     </div>
                                     {checkCartDataExists(id) && productData.productQuantity !== 0 && <div className="flex items-center">
                                         <div className="w-full flex items-center justify-between rounded-full">

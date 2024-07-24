@@ -11,7 +11,7 @@ import SimpleLoader from '../Loader/SimpleLoader';
 
 
 
-const KidenyTopRated = ({ products, stepperProgressCartData, setStepperProgressCartData }) => {
+const KidenyTopRated = ({ products, globalConfig, stepperProgressCartData, setStepperProgressCartData }) => {
   const sliderRef = useRef(null);
   const [loading, setLoading] = useState(false)
 
@@ -105,7 +105,7 @@ const KidenyTopRated = ({ products, stepperProgressCartData, setStepperProgressC
           />
           <Slider {...sliderSettings(products.length)} ref={sliderRef} className=''>
             {products.map((item, index) => (
-              <Topcard item={item} index={index} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
+              <Topcard item={item} index={index} globalConfig={globalConfig} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
 
             ))}
           </Slider>

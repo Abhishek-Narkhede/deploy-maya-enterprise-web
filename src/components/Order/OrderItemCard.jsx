@@ -2,12 +2,12 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../config";
 import { toast } from "react-toastify";
-import { apiDELETE, apiGET, apiPOST } from "../../utilities/apiHelpers";
+import { apiDELETE, apiGET, apiPOST, apiPUT } from "../../utilities/apiHelpers";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { setCartCount } from "../../redux/users/users";
 
-const OrderItemCard = ({ orderItem }) => {
+const OrderItemCard = ({ orderItem, globalConfig }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [orderAgainLoading, setOrderAgainLoading] = useState(false);
@@ -30,8 +30,21 @@ const OrderItemCard = ({ orderItem }) => {
                             setOrderAgainLoading(false)
                             console.log("cartResponse.data?.data?.length", cartResponse.data?.data?.length);
                             toast.success(response?.data?.data?.data);
-                            dispatch(setCartCount(cartResponse.data?.data?.length))
-                            navigate("/view-cart")
+                            const updatePayload = {
+                                selectedAddress: null,
+                                selectedPrescription: null,
+                                currentStep: 0
+                            }
+                            try {
+                                const updateResponse = await apiPUT(`/v1/stepper-progress/update-stepper-progress/${userId}`, updatePayload);
+                                if (updateResponse?.status) {
+                                    dispatch(setCartCount(cartResponse.data?.data?.length))
+                                    navigate("/view-cart")
+                                }
+                                console.log("update stepper progress", updateResponse);
+                            } catch (error) {
+                                console.log("Error", error);
+                            }
                             return true;
                         }
                     } else {
@@ -70,8 +83,8 @@ const OrderItemCard = ({ orderItem }) => {
                     <span className="text-[#817F7F]">Order date:</span> {moment(orderItem.createdAt).format('DD/MM/YY')}
                 </p>
                 <div className="flex items-center mt-2">
-                    <span className="text-gray-500 line-through mr-2">₹{orderItem?.productDetails?.price}</span>
-                    <span className="text-teal-600 font-semibold mr-4">₹{orderItem?.productDetails?.discountedPrice}</span>
+                    <span className="text-gray-500 line-through mr-2">{globalConfig?.currencyData?.symbol}{orderItem?.productDetails?.price}</span>
+                    <span className="text-teal-600 font-semibold mr-4">{globalConfig?.currencyData?.symbol}{orderItem?.productDetails?.discountedPrice}</span>
                     <div className="flex justify-between items-center space-x-2 w-full">
                         <span className="px-2 text-gray-500">Qty: {orderItem?.quantity}</span>
                         <button className="text-teal-600 items-center gap-1 flex "

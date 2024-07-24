@@ -20,6 +20,7 @@ const Products = () => {
     const [selectedLetter, setSelectedLetter] = useState('');
     const [loading, setLoading] = useState(false);
     const [stepperProgressCartData, setStepperProgressCartData] = useState([]);
+    const [globalConfig, setGlobalConfig] = useState([]);
     const userId = useSelector((state) => state.user?.userData?.id) || '';
     const dispatch = useDispatch()
     const getUserStepperProgress = async () => {
@@ -63,6 +64,20 @@ const Products = () => {
         }
     };
 
+    const fetchGlobalConfig = async () => {
+        try {
+            const response = await apiGET(`/v1/global-config/get-config`);
+            if (response.status) {
+                console.log(response?.data?.data?.data[0]);
+                setGlobalConfig(response?.data?.data?.data[0]);
+            } else {
+                toast.error('Error fetching global config')
+            }
+        } catch (error) {
+            toast.error('Error', error)
+        }
+    }
+
     useEffect(() => {
         fetchProducts(selectedLetter);
         getUserStepperProgress()
@@ -79,6 +94,7 @@ const Products = () => {
 
     useEffect(() => {
         fetchProducts("");
+        fetchGlobalConfig()
         scrollToTop();
     }, []);
 
@@ -98,7 +114,7 @@ const Products = () => {
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-1'>
                     {products?.length ? (
                         products.map((item) => (
-                            <KidneyMedicinesCard key={item.id} item={item} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
+                            <KidneyMedicinesCard key={item.id} item={item} globalConfig={globalConfig} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
                         ))
                     ) : (
                         <div className='col-span-full flex justify-center items-center'>

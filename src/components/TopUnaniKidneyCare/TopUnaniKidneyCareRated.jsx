@@ -9,7 +9,7 @@ import { API_URL } from "../../config";
 import TopUnaniKidneyCareCard from "./TopUnaniKidneyCareCard";
 
 
-const TopUnaniKidneyCareRated = ({ data, stepperProgressCartData, setStepperProgressCartData }) => {
+const TopUnaniKidneyCareRated = ({ data, globalConfig, stepperProgressCartData, setStepperProgressCartData }) => {
   const sliderRefs = useRef({});
 
   const sliderSettings = (numItems) => ({
@@ -103,7 +103,7 @@ const TopUnaniKidneyCareRated = ({ data, stepperProgressCartData, setStepperProg
           <Slider {...sliderSettings(category.products.length)} ref={(slider) => (sliderRefs.current[index] = slider)}>
             {category.products.length !== 0 && category.products.map((item) => (
               <div key={item._id} className="p-4">
-                <TopUnaniKidneyCareCard item={item} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
+                <TopUnaniKidneyCareCard item={item} globalConfig={globalConfig} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
               </div>
             ))}
           </Slider>

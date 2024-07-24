@@ -98,7 +98,7 @@ const ChooseMedicines = ({ setCurrentStep, stepperProgressCartData }) => {
                                     type="number"
                                     value={duration}
                                     onChange={handleDurationChange}
-                                    className="w-26 p-2 border rounded-[40px]"
+                                    className="w-26 p-2 border rounded-[40px] font-[600]"
                                 />
                                 <select
                                     value={unit}

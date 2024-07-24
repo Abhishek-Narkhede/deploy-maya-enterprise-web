@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MyCartStepper from "../components/Steppers/MyCartStepper";
 import MyCartStep from "../components/StepperRenderComponents/MyCartStep";
 import UploadPrescriptionStep from "../components/StepperRenderComponents/UploadPrescriptionStep";
@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 
 const ViewCart = () => {
     const location = useLocation();
+    const prevLocationRef = useRef(location.pathname);
     const userId = useSelector((state) => state.user?.userData.id) || '';
     const [stepperProgressCartData, setStepperProgressCartData] = useState([]);
     const [globalConfig, setGlobalConfig] = useState([]);
@@ -102,15 +103,18 @@ const ViewCart = () => {
         }
     }
     useEffect(() => {
-        scrollToTop()
-        fetchGlobalConfig()
+        scrollToTop();
+        fetchGlobalConfig();
         getUserStepperProgress();
         console.log(stepperProgressCartData?.currentStep);
     }, [])
 
     useEffect(() => {
-        resetCurrentStep()
-    }, [location]);
+        if (prevLocationRef.current !== location.pathname) {
+            resetCurrentStep();
+            prevLocationRef.current = location.pathname;
+        }
+    }, [location.pathname]);
 
     return <div className="container mx-auto lg:p-4 p-2">
         <MyCartStepper steps={steps} currentStep={stepperProgressCartData?.currentStep} />

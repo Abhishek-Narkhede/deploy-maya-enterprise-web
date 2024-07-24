@@ -41,6 +41,7 @@ import EnquiryOrderSummary from "../pages/EnquiryOrderSummary";
 import CodSuccessPage from "../pages/CodSuccessPage";
 import EmailSubscribeSuccess from "../pages/EmailSubscribeSuccess";
 import ChangePassword from "../components/profile/ChangePassword";
+import PaymentCancel from "../pages/PaymentCancel";
 
 
 export const publicPages = [
@@ -60,6 +61,7 @@ export const publicPages = [
 	// { path: "/ban", exact: true, component: Banner },
 	{ path: "/address", exact: true, component: Popup },
 	{ path: "/success", exact: true, component: PaymentSuccess },
+	{ path: "/cancel", exact: true, component: PaymentCancel },
 	{ path: "/cod-success-page/:id", exact: true, component: CodSuccessPage },
 
 

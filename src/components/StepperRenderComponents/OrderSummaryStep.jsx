@@ -80,6 +80,7 @@ const OrderSummaryStep = ({ stepperProgressCartData, setStepperProgressCartData,
                         <ProductCardofCart
                             key={item._id}
                             item={item}
+                            globalConfig={globalConfig}
                             onDelete={() => handleRemoveCartItem(item._id)}
                             stepperProgressCartData={setStepperProgressCartData}
                             setStepperProgressCartData={setStepperProgressCartData}

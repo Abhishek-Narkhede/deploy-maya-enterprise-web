@@ -17,7 +17,7 @@ const EnquiryOrderSummary = () => {
     const navigate = useNavigate();
     const userId = useSelector((state) => state.user?.userData?.id);
     const [loading, setLoading] = useState(false)
-    const [enquirySummaryDetails, setEnquirySummaryDetails] = useState()
+    const [enquirySummaryDetails, setEnquirySummaryDetails] = useState([])
     const [selectedOption, setSelectedOption] = useState('online');
     const [globalConfig, setGlobalConfig] = useState([]);
     console.log("enquirySummaryDetails::>", enquirySummaryDetails)
@@ -104,7 +104,7 @@ const EnquiryOrderSummary = () => {
         <div className="flex gap-5">
             <div className="">
                 {enquirySummaryDetails?.length ?
-                    <EnquiryCard cardItem={enquirySummaryDetails[0]?.orderItemData} />
+                    <EnquiryCard cardItem={enquirySummaryDetails[0]?.orderItemData} globalConfig={globalConfig} />
                     : ""
                 }
                 <div className="">

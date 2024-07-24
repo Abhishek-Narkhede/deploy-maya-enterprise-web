@@ -10,7 +10,7 @@ import SimpleLoader from '../Loader/SimpleLoader';
 import { API_URL } from '../../config';
 import { setCartCount } from '../../redux/users/users';
 
-const KidneyMedicinesCard = ({ item, stepperProgressCartData, setStepperProgressCartData }) => {
+const KidneyMedicinesCard = ({ item, globalConfig, stepperProgressCartData, setStepperProgressCartData }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isLoggedIn = useSelector((state) => state.user?.userData?.id) || false
@@ -149,8 +149,8 @@ const KidneyMedicinesCard = ({ item, stepperProgressCartData, setStepperProgress
         {/* Price */}
         <div className="flex justify-between items-center mt-2">
           <div className='flex gap-2'>
-            <span className="line-through text-gray-500">₹{item?.price ? item?.price : 0}</span>
-            <span className="text-[#095D7E] font-semibold">₹{item?.discountedPrice ? item?.discountedPrice : 0}</span>
+            <span className="line-through text-gray-500">{globalConfig?.currencyData?.symbol}{item?.price ? item?.price : 0}</span>
+            <span className="text-[#095D7E] font-semibold">{globalConfig?.currencyData?.symbol}{item?.discountedPrice ? item?.discountedPrice : 0}</span>
           </div>
           {item?.productQuantity !== 0 && <div>
             <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{item?.productQuantity} left</span>

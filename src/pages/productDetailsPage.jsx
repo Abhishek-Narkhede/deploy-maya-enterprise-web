@@ -15,6 +15,7 @@ const ProductDeyailsPage = () => {
     const [productData, setProductData] = useState(null);
     const [error, setError] = useState(null);
     const [stepperProgressCartData, setStepperProgressCartData] = useState([]);
+    const [globalConfig, setGlobalConfig] = useState([]);
     const params = useParams()
 
 
@@ -59,6 +60,20 @@ const ProductDeyailsPage = () => {
         }
     }
 
+    const fetchGlobalConfig = async () => {
+        try {
+            const response = await apiGET(`/v1/global-config/get-config`);
+            if (response.status) {
+                console.log(response?.data?.data?.data[0]);
+                setGlobalConfig(response?.data?.data?.data[0]);
+            } else {
+                toast.error('Error fetching global config')
+            }
+        } catch (error) {
+            toast.error('Error', error)
+        }
+    }
+
 
 
     useEffect(() => {
@@ -66,6 +81,7 @@ const ProductDeyailsPage = () => {
         getProductInformation();
         getProductData();
         getUserStepperProgress();
+        fetchGlobalConfig()
     }, [id]);
 
     return (
@@ -79,7 +95,7 @@ const ProductDeyailsPage = () => {
                     <li class="text-[#101010]">{productData?.name}</li>
                 </ol>
             </nav>
-            <ProductDeyailsCard productInformations={productInformations} productData={productData} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
+            <ProductDeyailsCard productInformations={productInformations} productData={productData} globalConfig={globalConfig} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
         </div>
 
     );

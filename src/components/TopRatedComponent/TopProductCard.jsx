@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import SimpleLoader from '../Loader/SimpleLoader';
 import { API_URL } from '../../config';
 import { setCartCount } from '../../redux/users/users';
-function TopProductCard({ item, stepperProgressCartData, setStepperProgressCartData }) {
+function TopProductCard({ item, globalConfig, stepperProgressCartData, setStepperProgressCartData }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isLoggedIn = useSelector((state) => state.user?.userData?.id) || false
@@ -152,8 +152,8 @@ function TopProductCard({ item, stepperProgressCartData, setStepperProgressCartD
       {/* Price */}
       <div className="flex items-center justify-between">
         <div className='flex gap-2'>
-          <span className="line-through text-gray-500">₹{item.price}</span>
-          <span className="text-[#095D7E] font-semibold">₹{item.discountedPrice}</span>
+          <span className="line-through text-gray-500">{globalConfig?.currencyData?.symbol}{item.price}</span>
+          <span className="text-[#095D7E] font-semibold">{globalConfig?.currencyData?.symbol}{item.discountedPrice}</span>
         </div>
         {item?.productQuantity !== 0 && <div>
           <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{item?.productQuantity} left</span>

@@ -7,7 +7,7 @@ const EnquirayPrescription = ({ prescription }) => {
                 Attached prescription
             </label>
             <div className='flex '>
-                <img className="w-full h-auto max-w-xs md:max-w-md lg:max-w-lg rounded-md" src={prescription?prescription[0].prescriptionData.prescriptionImgUrl : ""} />
+                <img className="w-full h-auto max-w-xs md:max-w-md lg:max-w-lg rounded-md" src={prescription ? prescription[0]?.prescriptionData?.prescriptionImgUrl : ""} />
             </div>
         </div>
     );

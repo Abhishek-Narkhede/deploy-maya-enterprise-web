@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { apiGET, apiPOST, apiPUT } from "../../utilities/apiHelpers";
 import { toast } from "react-toastify";
 
-const EnquiryItemCard = ({ item }) => {
+const EnquiryItemCard = ({ item, globalConfig }) => {
     const navigate = useNavigate()
     const getEnquiryType = (type) => {
         switch (type) {
@@ -121,7 +121,7 @@ const EnquiryItemCard = ({ item }) => {
                 </p>
                 {
                     item.enquiryStatus === "fulfilled" && <div className="lg:flex items-center justify-between mt-2">
-                        <div className="text-gray-500 mr-2 text-xs md:text-base">Total Amount: ₹{item?.totalPayment}</div>
+                        <div className="text-gray-500 mr-2 text-xs md:text-base">Total Amount: {globalConfig?.currencyData?.symbol}{item?.totalPayment}</div>
 
                         <button className="flex items-center space-x-2 p-1 bg-indigo-100 text-indigo-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 text-xs md:text-base" onClick={() => handleOrderSummary(item._id)}>
                             <span className="px-2 text-gray-500 flex items-center gap-2">

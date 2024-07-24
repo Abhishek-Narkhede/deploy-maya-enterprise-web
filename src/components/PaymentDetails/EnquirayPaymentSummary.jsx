@@ -16,7 +16,7 @@ const EnquiryPaymentSummary = ({ enquirySummaryDetails, globalConfig }) => {
             </p>
             <hr className="mt-4" />
             <p className="flex justify-between text-[#14967F] mt-4 font-bold text-lg">
-                <span>Total to pay</span> <span>{globalConfig?.currencyData?.symbol}{enquirySummaryDetails ? enquirySummaryDetails[0].totalCartAmount : "0"}</span>
+                <span>Total to pay</span> <span>{globalConfig?.currencyData?.symbol}{enquirySummaryDetails ? enquirySummaryDetails[0]?.totalCartAmount : "0"}</span>
             </p>
             <div className="mt-4 p-4 bg-white rounded-lg">
                 <div className="flex gap-4">
@@ -24,7 +24,7 @@ const EnquiryPaymentSummary = ({ enquirySummaryDetails, globalConfig }) => {
                     <div className="w-full">
                         <div className="font-medium text-xl">Delivering to</div>
                         <div className="flex justify-between items-center w-full">
-                            <div className=" text-gray-500 text-xs ">{enquirySummaryDetails ? enquirySummaryDetails[0].addressDetails.city : "NA"} {enquirySummaryDetails ? enquirySummaryDetails[0].addressDetails.zip : "0001"}</div>
+                            <div className=" text-gray-500 text-xs ">{enquirySummaryDetails ? enquirySummaryDetails[0]?.addressDetails.city : "NA"} {enquirySummaryDetails ? enquirySummaryDetails[0]?.addressDetails.zip : "0001"}</div>
                             {/* <div className="text-[#14967F]">Add Addresss</div> */}
                         </div>
                     </div>

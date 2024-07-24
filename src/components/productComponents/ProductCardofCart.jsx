@@ -6,7 +6,7 @@ import CustomLoader from '../Loader/CustomLoader';
 import { toast } from 'react-toastify';
 import { setCartCount } from '../../redux/users/users';
 
-const ProductCardofCart = ({ item, onQuantityChange, onDelete, stepperProgressCartData, setStepperProgressCartData }) => {
+const ProductCardofCart = ({ item, globalConfig, onQuantityChange, onDelete, stepperProgressCartData, setStepperProgressCartData }) => {
     const userId = useSelector((state) => state.user?.userData?.id);
     const [incrementLoader, setIncrementLoader] = useState(false)
     const [decrementLoader, setDecrementLoader] = useState(false)
@@ -117,8 +117,8 @@ const ProductCardofCart = ({ item, onQuantityChange, onDelete, stepperProgressCa
                     <div className="flex justify-between w-full items-center mt-4">
                         <div className='flex items-center'>
                             <div className="flex items-center">
-                                <span className="sm:text-lg text-sm text-gray-500 line-through mr-2">₹{item?.productDetails?.price}</span>
-                                <span className="sm:text-lg text-sm font-bold text-blue-600">₹{item?.productDetails?.discountedPrice}</span>
+                                <span className="sm:text-lg text-sm text-gray-500 line-through mr-2">{globalConfig?.currencyData?.symbol}{item?.productDetails?.price}</span>
+                                <span className="sm:text-lg text-sm font-bold text-blue-600">{globalConfig?.currencyData?.symbol}{item?.productDetails?.discountedPrice}</span>
                             </div>
                             <div className='ml-4 flex items-center'>
                                 <button className="px-3 py-1 bg-gray-200 rounded-md" onClick={() => handleQuantityChange('decrement', item?._id, item?.quantity, item?.productDetails?.productQuantity)} disabled={incrementLoader}>{decrementLoader ? <CustomLoader width='w-5' height='h-5' /> : '-'}</button>

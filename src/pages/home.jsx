@@ -10,6 +10,7 @@ import { apiGET, apiPOST } from '../utilities/apiHelpers'
 import { setCartCount } from '../redux/users/users'
 import { API_URL } from '../config'
 import CustomLoader from '../components/Loader/CustomLoader'
+import { toast } from 'react-toastify'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -21,11 +22,12 @@ const Home = () => {
   const [bannerData, setBannerData] = useState([]);
   const [kidneyMedicinesData, setKidneyMedicinesData] = useState([]);
   const [loading, setIsLoading] = useState(false);
+  const [globalConfig, setGlobalConfig] = useState([]);
 
   const getUserStepperProgress = async () => {
     if (userId) {
       try {
-        const stepperResponse = await apiGET(`/v1/stepper-progress/user-stepper-progress/${userId}`)
+        const stepperResponse = await apiGET(`${API_URL}/v1/stepper-progress/user-stepper-progress/${userId}`)
         setStepperProgressCartData(stepperResponse.data?.data);
         dispatch(setCartCount(stepperResponse.data?.data?.cartData.length));
       } catch (error) {
@@ -36,7 +38,7 @@ const Home = () => {
 
   const fetchKidenyTopRatedData = async () => {
     try {
-      const response = await apiGET('v1/product/getTopRatedProducts');
+      const response = await apiGET(`${API_URL}/v1/product/getTopRatedProducts`);
       setKidenyTopRatedData(response.data.data.product);
       console.log(response)
       // setLoading(false)
@@ -54,7 +56,7 @@ const Home = () => {
         "limit": 10,
         "searchQuery": ""
       }
-      const response = await apiPOST('v1/brand/all', payload);
+      const response = await apiPOST(`${API_URL}/v1/brand/all`, payload);
       setBrandData(response?.data?.data?.brands);
       // setLoading(false);
       console.log(response);
@@ -111,10 +113,25 @@ const Home = () => {
     }
   };
 
+  const fetchGlobalConfig = async () => {
+    try {
+      const response = await apiGET(`/v1/global-config/get-config`);
+      if (response.status) {
+        console.log(response?.data?.data?.data[0]);
+        setGlobalConfig(response?.data?.data?.data[0]);
+      } else {
+        toast.error('Error fetching global config')
+      }
+    } catch (error) {
+      toast.error('Error', error)
+    }
+  }
+
   const fetchAllData = async () => {
     setIsLoading(true);
     await Promise.all([
       getUserStepperProgress(),
+      fetchGlobalConfig(),
       fetchKidenyTopRatedData(),
       fetchBrandData(),
       fetchProductsBasedOnCategories(),
@@ -132,11 +149,11 @@ const Home = () => {
       <div className='container mx-auto px-4'>
         <MainSlider />
         {loading ? <div className='mt-20'><CustomLoader height='h-10' width='w-10' /></div> : <>
-          <KidenyTopRated products={kidenyTopRatedData} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
+          <KidenyTopRated products={kidenyTopRatedData} globalConfig={globalConfig} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
           <Brand brands={brandData} />
-          <TopUnaniKidneyCareRated data={productsBasedOnCategoriesData} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
+          <TopUnaniKidneyCareRated data={productsBasedOnCategoriesData} globalConfig={globalConfig} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
           <Banner bannerImages={bannerData} />
-          <KidneyMedicines products={kidneyMedicinesData} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
+          <KidneyMedicines products={kidneyMedicinesData} globalConfig={globalConfig} stepperProgressCartData={stepperProgressCartData} setStepperProgressCartData={setStepperProgressCartData} />
         </>}
       </div>
     </div>

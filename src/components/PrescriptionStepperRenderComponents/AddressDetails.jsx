@@ -51,14 +51,15 @@ const AddressDetails = ({ stepperProgressCartData }) => {
                 if (addOrderResponse.status) {
                     console.log('addOrderResponse::', addOrderResponse)
                     toast.success("Order Placed Successfully!");
+                    navigate('/enquiries')
                     try {
                         const updatePayload = {
-                            selectedAddress: selectedAddress
+                            selectedAddress: selectedAddress,
+                            currentStepForUploadPres: 0
                         }
                         const response = await apiPUT(`/v1/stepper-progress/update-stepper-progress/${userId}`, updatePayload);
                         if (response.status) {
                             setLoading(false);
-                            navigate('/enquiries')
                         }
                     } catch (error) {
                         setLoading(false)

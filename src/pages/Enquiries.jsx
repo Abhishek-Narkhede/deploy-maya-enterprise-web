@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { apiPOST } from "../utilities/apiHelpers";
+import { apiGET, apiPOST } from "../utilities/apiHelpers";
 import { API_URL } from "../config";
 import { toast } from "react-toastify";
 import EnquiryItemCard from "../components/Order/EnquiryItemCard";
@@ -13,7 +13,7 @@ const Enquiries = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [totalPages, setTotalPages] = useState(1);
-
+  const [globalConfig, setGlobalConfig] = useState([]);
   //   const handleSearch = (e) => {
   //     setSearchQuery(e.target.value);
   //   };
@@ -33,9 +33,24 @@ const Enquiries = () => {
     }
   };
 
+  const fetchGlobalConfig = async () => {
+    try {
+      const response = await apiGET(`/v1/global-config/get-config`);
+      if (response.status) {
+        console.log(response?.data?.data?.data[0]);
+        setGlobalConfig(response?.data?.data?.data[0]);
+      } else {
+        toast.error('Error fetching global config')
+      }
+    } catch (error) {
+      toast.error('Error', error)
+    }
+  }
+
   useEffect(() => {
     scrollToTop()
     getUserOrder();
+    fetchGlobalConfig();
   }, [page]);
 
   return (
@@ -54,7 +69,7 @@ const Enquiries = () => {
         {orderData?.length ? (
           <div className="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 xl:grid-cols-2 2xl:grid-cols-3 mt-4">
             {orderData.map((item) => (
-              <EnquiryItemCard key={item.id} item={item} />
+              <EnquiryItemCard key={item.id} item={item} globalConfig={globalConfig} />
             ))}
           </div>
         ) : (

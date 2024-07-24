@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-const EnquiryCard = ({ cardItem }) => {
+const EnquiryCard = ({ cardItem, globalConfig }) => {
     return (
         <div className={`${cardItem ? "h-[400px]" : ""} overflow-auto scrollbar-custom scroll-smoot px-2`}>
             {
@@ -20,8 +20,8 @@ const EnquiryCard = ({ cardItem }) => {
                                 <span className="text-[#817F7F]">Order date:</span> {moment(item.createdAt).format('DD/MM/YY')}
                             </p>
                             <div className="flex items-center mt-2">
-                                <span className="text-gray-500 line-through mr-2">₹{item?.productDetails?.price}</span>
-                                <span className="text-teal-600 font-semibold mr-4">₹{item?.productDetails?.discountedPrice}</span>
+                                <span className="text-gray-500 line-through mr-2">{globalConfig?.currencyData?.symbol}{item?.productDetails?.price}</span>
+                                <span className="text-teal-600 font-semibold mr-4">{globalConfig?.currencyData?.symbol}{item?.productDetails?.discountedPrice}</span>
                                 <div className="flex items-center space-x-2">
                                     <span className="px-2 text-gray-500">Qty: {item?.quantity}</span>
                                 </div>

@@ -19,6 +19,7 @@ const Orders = () => {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
+    const [globalConfig, setGlobalConfig] = useState([]);
 
     const getUserOrder = async () => {
         setLoading(true);
@@ -40,11 +41,26 @@ const Orders = () => {
         setLoading(false);
     };
 
+    const fetchGlobalConfig = async () => {
+        try {
+            const response = await apiGET(`/v1/global-config/get-config`);
+            if (response.status) {
+                console.log(response?.data?.data?.data[0]);
+                setGlobalConfig(response?.data?.data?.data[0]);
+            } else {
+                toast.error('Error fetching global config')
+            }
+        } catch (error) {
+            toast.error('Error', error)
+        }
+    }
+
 
 
 
     useEffect(() => {
         getUserOrder();
+        fetchGlobalConfig()
     }, [userId, page]);
     useEffect(() => {
         scrollToTop();
@@ -64,7 +80,7 @@ const Orders = () => {
                     </button>
                     <div className="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 xl:grid-cols-2 2xl:grid-cols-3 mt-4">
                         {selectedOrder?.orderItems?.map((orderItem) => (
-                            <OrderItemCard orderItem={orderItem} />
+                            <OrderItemCard orderItem={orderItem} globalConfig={globalConfig} />
                         ))}
                     </div>
                 </div>
