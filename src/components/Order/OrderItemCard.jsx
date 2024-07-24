@@ -12,56 +12,50 @@ const OrderItemCard = ({ orderItem, globalConfig }) => {
     const dispatch = useDispatch()
     const [orderAgainLoading, setOrderAgainLoading] = useState(false);
     const userId = useSelector((state) => state.user?.userData?.id) || '';
+
     const orderAgain = async (orderItem) => {
         setOrderAgainLoading(true)
-        const response = await apiDELETE(`/v1/cart/remove-user-cart`);
-        if (response.status) {
-            if (orderItem?.productDetails?.productQuantity > orderItem?.quantity) {
-                try {
-                    let payload = {
-                        productId: orderItem?.productId,
-                        userId: userId,
-                        quantity: orderItem?.quantity
-                    };
-                    const response = await apiPOST(`${API_URL}/v1/cart/add`, payload);
-                    if (response?.data?.status) {
-                        const cartResponse = await apiGET(`${API_URL}/v1/cart/all-by-user/${userId}`)
-                        if (cartResponse.status) {
-                            setOrderAgainLoading(false)
-                            console.log("cartResponse.data?.data?.length", cartResponse.data?.data?.length);
-                            toast.success(response?.data?.data?.data);
-                            const updatePayload = {
-                                selectedAddress: null,
-                                selectedPrescription: null,
-                                currentStep: 0
-                            }
-                            try {
-                                const updateResponse = await apiPUT(`/v1/stepper-progress/update-stepper-progress/${userId}`, updatePayload);
-                                if (updateResponse?.status) {
-                                    dispatch(setCartCount(cartResponse.data?.data?.length))
-                                    navigate("/view-cart")
-                                }
-                                console.log("update stepper progress", updateResponse);
-                            } catch (error) {
-                                console.log("Error", error);
-                            }
-                            return true;
-                        }
-                    } else {
+        if (orderItem?.productDetails?.productQuantity > orderItem?.quantity) {
+            try {
+                let payload = {
+                    productId: orderItem?.productId,
+                    userId: userId,
+                    quantity: orderItem?.quantity
+                };
+                const response = await apiPOST(`${API_URL}/v1/cart/add`, payload);
+                if (response?.data?.status) {
+                    const cartResponse = await apiGET(`${API_URL}/v1/cart/all-by-user/${userId}`)
+                    if (cartResponse.status) {
                         setOrderAgainLoading(false)
-                        toast.error(response?.data?.data);
-                        return false;
+                        dispatch(setCartCount(cartResponse.data?.data?.length))
+                        console.log("cartResponse.data?.data?.length", cartResponse.data?.data?.length);
+                        toast.success(response?.data?.data?.data);
+                        const updatePayload = {
+                            currentStep: 0
+                        }
+                        try {
+                            const updateResponse = await apiPUT(`/v1/stepper-progress/update-stepper-progress/${userId}`, updatePayload);
+                            if (updateResponse?.status) {
+                                navigate("/view-cart")
+                            }
+                            console.log("update stepper progress", updateResponse);
+                        } catch (error) {
+                            console.log("Error", error);
+                        }
+                        return true;
                     }
-                } catch (error) {
+                } else {
                     setOrderAgainLoading(false)
+                    toast.error(response?.data?.data);
                     return false;
                 }
-            } else {
+            } catch (error) {
                 setOrderAgainLoading(false)
-                toast.info("Product quantity is not available")
+                return false;
             }
         } else {
-            toast.error("Please remove firt item from cart")
+            setOrderAgainLoading(false)
+            toast.info("Product quantity is not available")
         }
     };
     return (

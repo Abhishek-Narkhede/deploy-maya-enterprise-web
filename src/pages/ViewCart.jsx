@@ -106,7 +106,6 @@ const ViewCart = () => {
         scrollToTop();
         fetchGlobalConfig();
         getUserStepperProgress();
-        console.log(stepperProgressCartData?.currentStep);
     }, [])
 
     useEffect(() => {
