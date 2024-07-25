@@ -97,6 +97,7 @@ const PaymentStep = ({ stepperProgressCartData, setStepperProgressCartData, glob
                                 orderType: selectedOption
                             }
                             const checkoutResponse = await apiPOST(`/v1/payment/create-checkout/${addOrderResponse?.data?.data?.id}`, payload);
+                            console.log('checkoutResponse', checkoutResponse);
                             if (checkoutResponse.status) {
                                 setLoading(false)
                                 const checkoutUrl = checkoutResponse?.data?.data?.url;
@@ -104,6 +105,7 @@ const PaymentStep = ({ stepperProgressCartData, setStepperProgressCartData, glob
                                 window.location.replace(checkoutUrl)
                             } else {
                                 console.error("Failed to create checkout session:", checkoutResponse.data);
+                                toast.error('Failed to create checkout session');
                                 setLoading(false)
                             }
                         }
