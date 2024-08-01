@@ -76,7 +76,7 @@ export const publicPages = [
 	{ path: "/product/brand/:id", exact: true, component: BrandProducts },
 	{ path: "/enquiries", exact: true, component: Enquiries },
 	{ path: "/order-summary/:id", exact: true, component: EnquiryOrderSummary },
-
+	{ path: "/email-subscribe/:id", exact: true, component: EmailSubscribeSuccess }
 
 ];
 export const withoutfooterandNavbar = [

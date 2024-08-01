@@ -24,7 +24,7 @@ const EnquiryPaymentSummary = ({ enquirySummaryDetails, globalConfig }) => {
                     <div className="w-full">
                         <div className="font-medium text-xl">Delivering to</div>
                         <div className="flex justify-between items-center w-full">
-                            <div className=" text-gray-500 text-xs ">{enquirySummaryDetails ? enquirySummaryDetails[0]?.addressDetails.city : "NA"} {enquirySummaryDetails ? enquirySummaryDetails[0]?.addressDetails.zip : "0001"}</div>
+                            <div className=" text-gray-500 text-xs ">{enquirySummaryDetails ? enquirySummaryDetails[0]?.addressDetails?.city : "NA"} {enquirySummaryDetails ? enquirySummaryDetails[0]?.addressDetails?.zip : "0001"}</div>
                             {/* <div className="text-[#14967F]">Add Addresss</div> */}
                         </div>
                     </div>

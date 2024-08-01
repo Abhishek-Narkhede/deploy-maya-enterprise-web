@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import { setCartCount } from "../../redux/users/users";
 
 const OrderSummaryStep = ({ stepperProgressCartData, setStepperProgressCartData, globalConfig }) => {
-    const cartData = useSelector(state => state.cart?.cartData ? state.cart?.cartData : []);
     const userId = useSelector((state) => state.user?.userData?.id);
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
@@ -61,8 +60,10 @@ const OrderSummaryStep = ({ stepperProgressCartData, setStepperProgressCartData,
 
     const getUserStepperProgress = async () => {
         try {
-            const stepperResponse = await apiGET(`/v1/stepper-progress/user-stepper-progress/${userId}`)
-            setStepperProgressCartData(stepperResponse.data?.data);
+            if (userId) {
+                const stepperResponse = await apiGET(`${API_URL}/v1/stepper-progress/user-stepper-progress/${userId}`)
+                setStepperProgressCartData(stepperResponse.data?.data);
+            }
         } catch (error) {
             toast.error(error)
         }

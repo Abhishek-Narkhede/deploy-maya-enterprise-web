@@ -52,7 +52,7 @@ const AddressCard = () => {
         } catch (error) {
             console.error('Error deleting address:', error);
         }
-        
+
     };
 
 
@@ -67,7 +67,7 @@ const AddressCard = () => {
     return (
         <div className="flex flex-wrap items-center justify-center p-4">
             <div className=" bg-white p-8 rounded-lg shadow-md w-full max-w-[793px]">
-                {addressData.map((address, index) => (
+                {addressData?.length !== 0 && addressData?.map((address, index) => (
                     <div key={index} className="bg-[#F8F8F8] text-xs p-4 rounded-lg shadow-md relative my-5 ">
                         <div className="flex flex-col md:flex-row md:space-x-4">
                             <FiMapPin className="text-xl text-[#095D7E] mb-2 md:mb-0" />
