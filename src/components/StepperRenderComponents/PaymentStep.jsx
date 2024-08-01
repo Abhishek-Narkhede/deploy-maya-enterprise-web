@@ -76,38 +76,44 @@ const PaymentStep = ({ stepperProgressCartData, setStepperProgressCartData, glob
                     toast.success('Order added successfully')
                     setLoading(false);
                     if (addOrderResponse?.data?.data && stepperProgressCartData?.cartData?.length) {
-                        stepperProgressCartData?.cartData && stepperProgressCartData?.cartData?.length !== 0 && stepperProgressCartData?.cartData?.map(async (item) => {
-                            console.log(addOrderResponse?.data);
+                        const addOrderItemsPromises = stepperProgressCartData?.cartData.map(async (item) => {
                             const addOrderItemPayload = {
                                 orderId: addOrderResponse?.data?.data?.id,
                                 productId: item?.productId,
                                 quantity: item?.quantity,
-                            }
+                            };
                             try {
-                                const orderItemResponse = await apiPOST(`/v1/order-item/add`, addOrderItemPayload);
+                                return await apiPOST(`/v1/order-item/add`, addOrderItemPayload);
                             } catch (error) {
-                                console.log("Error Order Adding Item::", error);
+                                console.log("Error Adding Order Item::", error);
+                                return null;
                             }
-                        })
+                        });
+                        const orderItemsResponses = await Promise.all(addOrderItemsPromises);
+                        const allOrderItemsAdded = orderItemsResponses.every(response => response && response.status);
                         console.log("addOrderResponse::", addOrderResponse?.data?.data);
-                        if (addOrderResponse?.data?.data?.id) {
-                            setLoading(true)
+                        if (allOrderItemsAdded && addOrderResponse?.data?.data?.id) {
+                            setLoading(true);
                             const payload = {
                                 mode: 'order',
-                                orderType: selectedOption
-                            }
+                                orderType: selectedOption,
+                            };
                             const checkoutResponse = await apiPOST(`/v1/payment/create-checkout/${addOrderResponse?.data?.data?.id}`, payload);
                             console.log('checkoutResponse', checkoutResponse);
                             if (checkoutResponse.status) {
-                                setLoading(false)
+                                setLoading(false);
                                 const checkoutUrl = checkoutResponse?.data?.data?.url;
                                 console.log(checkoutUrl);
-                                window.location.replace(checkoutUrl)
+                                window.location.replace(checkoutUrl);
                             } else {
                                 console.error("Failed to create checkout session:", checkoutResponse.data);
                                 toast.error('Failed to create checkout session');
-                                setLoading(false)
+                                setLoading(false);
                             }
+                        } else {
+                            console.log("Error adding order items");
+                            setLoading(false);
+                            toast.error('Error adding order items');
                         }
                     }
                 } else {

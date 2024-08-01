@@ -169,7 +169,9 @@ export default function Popup({ isOpen, setIsOpen, onUpdate }) {
         setSelectedCity('')
         setErrors({});
         togglePopup();
-        onUpdate();
+        if (onUpdate) {
+          onUpdate();
+        }
         toast.success('Address added successfully');
         setLoading(false)
       } else {
